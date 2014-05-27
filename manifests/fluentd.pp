@@ -38,6 +38,25 @@ augeas { "td-agent":
       incl    => "/etc/td-agent/td-agent.conf",
       lens    => "Httpd.lns",
       changes => [
+	##### first source for nginx
+	"set source[last()+1]/directive[1] 'type'",
+	"set source[last()]/directive[1]/arg 'tail'",
+	"set source[last()]/directive[2] 'format'",
+	"set source[last()]/directive[2]/arg \"'format /^(?<time>.+) \[(?<level>[^\]]+)\] *(?<message>.*)$/'\"",
+	"set source[last()]/directive[3] 'path'",
+	"set source[last()]/directive[3]/arg /var/log/nginx/error.log",
+	"set source[last()]/directive[4] 'tag'",
+	"set source[last()]/directive[4]/arg 'nginx.hostapp'",
+	##### match to add nginx tags
+	"set match[last()+1]/arg 'nginx.hostapp'",
+	"set match[last()]/directive[1] 'type'",
+	"set match[last()]/directive[1]/arg 'record_modifier'",
+	"set match[last()]/directive[2] 'gen_host'",
+	"set match[last()]/directive[2]/arg '\${hostname}'",
+	"set match[last()]/directive[3] 'gen_app'",
+	"set match[last()]/directive[3]/arg 'nginx'",
+	"set match[last()]/directive[4] 'tag'",
+	"set match[last()]/directive[4]/arg 'es.send'",
 	##### first source for catching errors and multiline exceptions
 	"set source[last()+1]/directive[1] 'type'",
 	"set source[last()]/directive[1]/arg 'tail'",
