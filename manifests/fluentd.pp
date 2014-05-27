@@ -87,8 +87,10 @@ augeas { "td-agent":
 	"set match[last()]/directive[1]/arg 'record_modifier'",
 	"set match[last()]/directive[2] 'gen_host'",
 	"set match[last()]/directive[2]/arg '\${hostname}'",
-	"set match[last()]/directive[3] 'tag'",
-	"set match[last()]/directive[3]/arg 'es.send'",
+	"set match[last()]/directive[3] 'gen_app'",
+	"set match[last()]/directive[3]/arg 'elasticsearch'",
+	"set match[last()]/directive[4] 'tag'",
+	"set match[last()]/directive[4]/arg 'es.send'",
        ##### finally the match that sends the data to elasticsearch	 
 	"set match[last()+1]/arg 'es.send'",
 	"set match[last()]/directive[1] 'type'",
